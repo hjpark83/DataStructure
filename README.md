@@ -1,2 +1,3 @@
-# Data-Structure
-HYU_CSE2010 (자료구조론)
+# Hanyang University_DataStructure
+
+## Professor : JongIl Park
