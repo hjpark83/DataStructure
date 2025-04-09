@@ -1,0 +1,75 @@
+# Equivalence Class Mechanism 예시 # 
+
+seq[0] -> [2] -> [1] -> NULL
+seq[1] -> [3] -> [0] -> NULL
+seq[2] -> [0] -> NULL
+seq[3] -> [1] -> NULL
+
+## 0에서 시작
+if(out[0]){
+    printf("New Class")
+    out[0]=FALSE;
+    x=seq[0]; // x->[2]->[1]
+    top=NULL;
+}
+
+## 0의 이웃 2 방문  ==> seq[0] -> [2] -> [1] -> NULL
+j = x->data;      // j = 2
+if(out[2]) {
+    printf("2");
+    out[2] = FALSE;   // 2번 노드를 방문 처리
+
+    y = x->link;      // y -> [1] (x의 다음 이웃)
+    x->link = top;    // x->link = NULL (현재 노드의 다음 link를 백업)
+    top = x;          // top -> [2] (방문 처리 -> stack에 push)
+    x = y;            // x -> [1] (현재 노드를 다음 노드로 변경)
+}
+
+## 2의 이웃 1 방문  ==> seq[0] -> [2] -> [1] -> NULL
+j = x->data;      // j = 1
+if(out[1]) {
+    printf("1");
+    out[1] = FALSE;   // 1번 노드를 방문 처리
+
+    y = x->link;      // y = NULL (1의 다음 이웃이 없기 때문에 NULL)
+    x->link = top;    // x->link = [2] (현재 노드의 다음 link를 백업)
+    top = x;          // top -> [1] -> [2]
+    x = y;            // x = NULL
+}
+
+## 처음으로 backtrack 
+if (!x && top) {
+    x = seq[top->data];  // top->data = 1
+    top = top->link;     // top -> [2]
+} // x = seq[1] = [3] -> [0]
+
+=============================================================================
+
+## 0의 다음 이웃 1 방문 : seq[1] -> [3] -> [0] -> NULL
+j = x->data;     // j = 3
+if(out[3]) {
+    printf("3");
+    out[3] = FALSE;
+
+    y = x->link;     // y -> [0] (1의 다음 이웃 = 0)
+    x->link = top;   // x->link = [2] (현재 노드의 다음 link를 백업)
+    top = x;         // top -> [3]
+    x = y;           // x -> [0]
+}
+
+j = x->data;     // j = 0
+if(!out[0]) {
+    x = x->link; // x = NULL
+}
+
+x = seq[top->data]; // top->data = 2
+x = seq[2] = [0] → 이미 방문함 → 종료
+
+>> New Class:     0    2    1    3
+------------------------------------------------
+-> 0에서 시작
+-> 0의 이웃 2 방문 : seq[0] -> [2] -> [1] -> NULL
+-> 2의 이웃 X ==> 처음으로 backtrack : seq[2] -> [0] -> NULL
+-> 0의 다음 이웃 1 방문 : seq[1] -> [3] -> [0] -> NULL
+-> 3의 이웃 1 ==> 이미 방문함 : seq[3] -> [1] -> NULL
+-> 반복문 탈출, 종료

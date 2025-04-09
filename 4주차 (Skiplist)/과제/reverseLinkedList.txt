@@ -1,0 +1,27 @@
+void reverseList(LinkedList *plist, StackNode **top){
+    Node *pNode = NULL;
+    StackNode *sNode = NULL;
+
+    printf("Reverse Linked List!\n");
+    // Stack에 List 저장
+    pNode = plist->headNode.nextNode;                    // headNode의 다음 노드부터 시작 (headNode는 dummy노드 이기 때문)
+    while(pNode != NULL){                                // 리스트 순회
+        sNode = (StackNode*)malloc(sizeof(StackNode));   // 스택 생성
+        sNode->data = pNode->data;                       // 스택에 현재 노드를 push
+        sNode->nextNode = *top;                          // 스택의 top을 현재 노드의 다음 노드로 설정
+        *top = sNode;                                    // top을 현재 노드로 update
+
+        pNode = pNode->nextNode;                         // 리스트의 다음 노드로 이동
+    }
+    // List에 Stack 저장
+    pNode = plist->headNode.nextNode;                    // headNode의 다음 노드부터 시작 (headNode는 dummy노드 이기 때문)
+    while(*top != NULL && pNode != NULL){                // 리스트, 스택 순회
+        pNode->data = (*top)->data;                      // 현재 노드의 data에 스택의 top이 갖고 있는 data를 복사
+
+        sNode = *top;                                    // 스택에서 pop 하기 위해 top node를 지정
+        *top = (*top)->nextNode;                         // 스택의 top을 다음 노드로 이동
+        free(sNode);                                     // pop한 stack node를 해제
+
+        pNode = pNode->nextNode;                         // 리스트도 다음 노드로 넘어감 (그래야 stack에서 pop한 노드를 연결할 수 있기 떄문)
+    }
+}
