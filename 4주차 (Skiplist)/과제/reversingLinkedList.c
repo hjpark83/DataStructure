@@ -120,6 +120,7 @@ void makeEmpty(LinkedList *plist){
             free(pDummyNode);
         }
         plist->headNode.nextNode = NULL;
+        plist->curCount = 0;
     }
 }
 
