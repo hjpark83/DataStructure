@@ -72,7 +72,7 @@ AvlNode *avlAdd(AvlNode *root, int data){
                 root = rotateRL(root);
         }
     }else{
-        printf("Áßº¹ Å° »ðÀÔ ¿À·ù\n");
+        printf("ì¤‘ë³µ í‚¤ ì‚½ìž… ì˜¤ë¥˜\n");
         exit(1);
     }
     root->Height = Max(height(root->left), height(root->right)) + 1;
@@ -103,7 +103,8 @@ AvlNode *avlDelete(AvlNode *root, int data){
         }
     }
 
-    if(root == NULL) return NULL;
+    if(root == NULL) 
+        return NULL;
 
     root->Height = Max(height(root->left), height(root->right)) + 1;
 
